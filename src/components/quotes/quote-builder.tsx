@@ -198,11 +198,11 @@ export default function QuoteBuilder({ leadId, quoteId, existingQuote }: QuoteBu
                         <div className="grid grid-cols-2 gap-4 bg-slate-50 p-3 rounded-md border">
                             <div>
                                 <Label className="text-xs">Intestazione Cliente</Label>
-                                <Input size="sm" value={clientName} onChange={(e) => setClientName(e.target.value)} />
+                                <Input className="h-8" value={clientName} onChange={(e) => setClientName(e.target.value)} />
                             </div>
                             <div>
                                 <Label className="text-xs">Email Invio</Label>
-                                <Input size="sm" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} />
+                                <Input className="h-8" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} />
                             </div>
                         </div>
 
