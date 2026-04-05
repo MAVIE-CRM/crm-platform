@@ -111,3 +111,32 @@ export async function deleteAllLeads() {
         return { success: false, error };
     }
 }
+export async function updateLeadDetails(id: string, data: any) {
+    console.log("SERVER: Received Geodata for update:", { city: data.eventCity, prov: data.eventProvince, reg: data.eventRegion });
+    try {
+        await prisma.lead.update({
+            where: { id },
+            data: {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                phoneRaw: data.phone,
+                eventType: data.eventType,
+                eventDate: data.eventDate ? new Date(data.eventDate) : null,
+                eventLocation: data.eventLocation,
+                eventCity: data.eventCity,
+                eventProvince: data.eventProvince,
+                eventRegion: data.eventRegion,
+                guestsCount: data.guestsCount ? parseInt(data.guestsCount) : null,
+                productInterest: data.productInterest,
+            }
+        });
+
+        revalidatePath(`/leads/${id}`);
+        revalidatePath('/leads');
+        return { success: true };
+    } catch (error) {
+        console.error("Error updating lead details:", error);
+        return { success: false, error };
+    }
+}

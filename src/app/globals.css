@@ -2,6 +2,32 @@
 
 @plugin "tailwindcss-animate";
 
+/* Fix per Google Maps Autocomplete in Modali/Dialoghi */
+.pac-container {
+    z-index: 99999 !important;
+    pointer-events: auto !important;
+    border-radius: 12px;
+    margin-top: 5px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    border: 1px solid #e2e8f0;
+    font-family: inherit;
+}
+
+.pac-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.pac-item:hover {
+    background-color: #f8fafc;
+}
+
+.pac-item-query {
+    font-size: 14px;
+    color: #1e293b;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
