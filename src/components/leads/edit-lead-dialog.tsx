@@ -179,7 +179,7 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
                 router.refresh()
                 setOpen(false)
             } else {
-                toast.error('Errore nel salvataggio dei dati')
+                toast.error(`Errore nel salvataggio: ${result.error}`)
             }
         } catch (error) {
             toast.error('Errore imprevisto durante l\'aggiornamento')

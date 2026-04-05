@@ -135,8 +135,8 @@ export async function updateLeadDetails(id: string, data: any) {
         revalidatePath(`/leads/${id}`);
         revalidatePath('/leads');
         return { success: true };
-    } catch (error) {
-        console.error("Error updating lead details:", error);
-        return { success: false, error };
+    } catch (error: any) {
+        console.error("SERVER ERROR: Failed to update lead details:", error);
+        return { success: false, error: error.message || "Unknown Prisma Error" };
     }
 }
