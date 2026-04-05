@@ -114,23 +114,18 @@ export async function deleteAllLeads() {
 export async function updateLeadDetails(id: string, data: any) {
     console.log("SERVER: Received Geodata for update:", { city: data.eventCity, prov: data.eventProvince, reg: data.eventRegion });
     try {
-        await prisma.lead.update({
-            where: { id },
-            data: {
-                firstName: data.firstName,
-                lastName: data.lastName,
-                email: data.email,
-                phoneRaw: data.phone,
-                eventType: data.eventType,
-                eventDate: data.eventDate ? new Date(data.eventDate) : null,
-                eventLocation: data.eventLocation,
-                eventCity: data.eventCity,
-                eventProvince: data.eventProvince,
-                eventRegion: data.eventRegion,
-                guestsCount: data.guestsCount ? parseInt(data.guestsCount) : null,
-                productInterest: data.productInterest,
-            }
-        });
+        await (prisma as any).$executeRawUnsafe(`
+            UPDATE "Lead" 
+            SET "eventCity" = ?, "eventProvince" = ?, "eventRegion" = ?, "eventLocation" = ?, 
+                "firstName" = ?, "lastName" = ?, "email" = ?, "phoneRaw" = ?, 
+                "eventType" = ?, "eventDate" = ?, "guestsCount" = ?, "productInterest" = ?, 
+                "updatedAt" = CURRENT_TIMESTAMP
+            WHERE "id" = ?
+        `, 
+        data.eventCity || null, data.eventProvince || null, data.eventRegion || null, data.eventLocation || null, 
+        data.firstName || null, data.lastName || null, data.email || null, data.phone || null, 
+        data.eventType || null, data.eventDate ? new Date(data.eventDate).toISOString() : null, 
+        data.guestsCount ? parseInt(data.guestsCount) : null, data.productInterest || null, id);
 
         revalidatePath(`/leads/${id}`);
         revalidatePath('/leads');
