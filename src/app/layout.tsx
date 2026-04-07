@@ -4,6 +4,8 @@ import "./globals.css"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { Toaster } from "@/components/ui/sonner"
+import { GlobalSearch } from "@/components/global-search"
+import { cn } from "@/lib/utils"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -18,12 +20,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <body className={inter.className}>
         <SidebarProvider>
           <AppSidebar />
-          <main className="w-full">
-            <div className="p-4 border-b flex items-center">
-              <SidebarTrigger />
-              <h1 className="ml-4 font-semibold text-lg">CRM Platform</h1>
-            </div>
-            <div className="p-4">
+          <main className="w-full bg-[#f8fafc]">
+            <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-xl border-b border-slate-200/60 transition-all duration-300 px-6 h-20 flex items-center justify-between gap-8">
+              <div className="flex items-center gap-4 shrink-0">
+                <SidebarTrigger className="h-10 w-10 text-slate-500 hover:text-indigo-600 transition-colors" />
+                <div className="h-8 w-px bg-slate-200" />
+              </div>
+              
+              <div className="flex-1 max-w-2xl px-4">
+                <GlobalSearch />
+              </div>
+
+              <div className="flex items-center gap-4 ml-auto lg:min-w-[12rem] justify-end">
+                  <div className="h-10 w-10 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-black text-sm shadow-sm group hover:bg-indigo-600 hover:text-white transition-all cursor-pointer">
+                    LV
+                  </div>
+              </div>
+            </header>
+            
+            <div className="p-8 lg:p-10 transition-all duration-500">
               {children}
             </div>
           </main>

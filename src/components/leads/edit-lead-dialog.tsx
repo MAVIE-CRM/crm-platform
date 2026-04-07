@@ -25,9 +25,16 @@ import {
     FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 import { updateLeadDetails } from '@/actions/lead-actions'
 import { toast } from 'sonner'
-import { Lead } from '@prisma/client'
+import { Lead } from '../../generated/client'
 
 const formSchema = z.object({
     firstName: z.string().min(2, 'Richiesto'),
@@ -37,6 +44,7 @@ const formSchema = z.object({
     eventType: z.string().optional(),
     eventDate: z.string().optional(),
     eventLocation: z.string().optional(),
+    locationName: z.string().optional(),
     eventCity: z.string().optional(),
     eventProvince: z.string().optional(),
     eventRegion: z.string().optional(),
@@ -53,8 +61,18 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [statusMessage, setStatusMessage] = useState<string | null>(null)
+    const [customType, setCustomType] = useState('')
     const autoCompleteRef = useRef<any>(null)
     const inputRef = useRef<HTMLInputElement>(null)
+
+    // Pre-populate customType if current type is not in the predefined list
+    const predefinedTypes = ["MATRIMONIO", "BATTESIMO", "COMUNIONE", "LAUREA", "COMPLEANNO", "EVENTO AZIENDALE"]
+    
+    useEffect(() => {
+        if (lead.eventType && !predefinedTypes.includes(lead.eventType)) {
+            setCustomType(lead.eventType)
+        }
+    }, [lead.eventType])
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -63,9 +81,10 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
             lastName: lead.lastName || '',
             email: lead.email || '',
             phone: lead.phoneRaw || '',
-            eventType: lead.eventType || '',
+            eventType: lead.eventType ? (predefinedTypes.includes(lead.eventType) ? lead.eventType : 'ALTRO') : '',
             eventDate: lead.eventDate ? new Date(lead.eventDate).toISOString().split('T')[0] : '',
             eventLocation: lead.eventLocation || '',
+            locationName: (lead as any).locationName || '',
             eventCity: lead.eventCity || '',
             eventProvince: lead.eventProvince || '',
             eventRegion: lead.eventRegion || '',
@@ -105,6 +124,10 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
                         form.setValue('eventLocation', place.formatted_address);
                     } else if (place.name) {
                         form.setValue('eventLocation', place.name);
+                    }
+
+                    if (place.name) {
+                        form.setValue('locationName', place.name);
                     }
 
                     let city = '';
@@ -173,7 +196,12 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setLoading(true)
         try {
-            const result = await updateLeadDetails(lead.id, values)
+            // Se è selezionato 'ALTRO', usa il valore di customType
+            const finalValues = {
+                ...values,
+                eventType: values.eventType === 'ALTRO' ? customType : values.eventType
+            }
+            const result = await updateLeadDetails(lead.id, finalValues)
             if (result.success) {
                 toast.success('Dati salvati con successo!')
                 router.refresh()
@@ -191,9 +219,9 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" size="sm" className="rounded-2xl border-indigo-200 hover:bg-indigo-50 hover:border-indigo-400 transition-all font-bold px-6 py-5 shadow-sm">
-                    <Edit2 className="mr-2 h-4 w-4 text-indigo-600" />
-                    Perfeziona Posizione
+                <Button variant="outline" size="sm" className="rounded-2xl border-indigo-200 hover:bg-indigo-50 hover:border-indigo-400 transition-all font-black px-6 py-5 shadow-sm group">
+                    <Edit2 className="mr-2 h-4 w-4 text-indigo-600 group-hover:scale-110 transition-transform" />
+                    Modifica Dati
                 </Button>
             </DialogTrigger>
             <DialogContent 
@@ -205,15 +233,15 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
                 }}
                 className="sm:max-w-[650px] rounded-[2.5rem] border-none shadow-[0_32px_64px_-12px_rgba(79,70,229,0.25)] p-0 overflow-hidden"
             >
-                <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-900 p-8 text-white relative h-40 flex flex-col justify-end">
+                <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-900 p-8 text-white relative h-44 flex flex-col justify-end">
                     <div className="absolute top-4 right-6 opacity-10">
                         <Navigation className="h-32 w-32" />
                     </div>
                     <DialogTitle className="text-3xl font-black tracking-tight leading-none mb-2">
-                         Localizzazione Smart
+                         Gestione Dati Lead
                     </DialogTitle>
-                    <DialogDescription className="text-indigo-100 font-medium opacity-90 max-w-md">
-                        Inserisci il nome della villa o l'indirizzo. Google estrarrà città, provincia e regione automaticamente.
+                    <DialogDescription className="text-indigo-100 font-medium opacity-90 max-w-sm leading-relaxed">
+                        Perfeziona la location dell'evento e aggiorna i dettagli principali del cliente.
                     </DialogDescription>
                 </div>
                 
@@ -246,6 +274,64 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
                             />
                         </div>
 
+                        <div className="grid grid-cols-2 gap-6 pb-2">
+                             <FormField
+                                control={form.control}
+                                name="eventType"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Tipologia Evento</FormLabel>
+                                        <Select 
+                                            onValueChange={(val) => {
+                                                field.onChange(val);
+                                                if (val !== 'ALTRO') {
+                                                    setCustomType('');
+                                                }
+                                            }} 
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger className="rounded-2xl border-slate-200 bg-slate-50/50 py-6 font-bold focus:ring-indigo-500 h-12">
+                                                    <SelectValue placeholder="Seleziona tipo..." />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent className="rounded-2xl border-indigo-100 shadow-xl font-bold">
+                                                <SelectItem value="MATRIMONIO">MATRIMONIO</SelectItem>
+                                                <SelectItem value="BATTESIMO">BATTESIMO</SelectItem>
+                                                <SelectItem value="COMUNIONE">COMUNIONE</SelectItem>
+                                                <SelectItem value="LAUREA">LAUREA</SelectItem>
+                                                <SelectItem value="COMPLEANNO">COMPLEANNO</SelectItem>
+                                                <SelectItem value="EVENTO AZIENDALE">EVENTO AZIENDALE</SelectItem>
+                                                <SelectItem value="ALTRO">ALTRO (Specifica...)</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        {field.value === 'ALTRO' && (
+                                            <div className="mt-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                <Input 
+                                                    placeholder="Inserisci tipo evento..."
+                                                    className="rounded-2xl border-indigo-200 bg-indigo-50/30 py-6 font-black text-indigo-700 h-12"
+                                                    value={customType}
+                                                    onChange={(e) => setCustomType(e.target.value)}
+                                                />
+                                            </div>
+                                        )}
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="eventDate"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Data Evento</FormLabel>
+                                        <FormControl>
+                                            <Input type="date" className="rounded-2xl border-slate-200 bg-slate-50/50 py-6 font-bold focus:ring-indigo-500 h-12" {...field} />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
                         <FormField
                             control={form.control}
                             name="eventLocation"
@@ -259,7 +345,7 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
                                             <Input 
                                                 autoComplete="off"
                                                 className="rounded-3xl border-2 border-slate-100 bg-slate-50/30 py-9 pl-16 pr-6 font-black text-lg text-slate-800 placeholder:text-slate-300 focus:ring-indigo-500 focus:border-indigo-300 transition-all shadow-inner" 
-                                                placeholder="Es: Villa Ravaschieri..." 
+                                                placeholder="Cerca Ville, Location o Indirizzo..." 
                                                 {...field}
                                                 ref={(e) => {
                                                     field.ref(e);
@@ -302,9 +388,21 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
                                </div>
                             </div>
                         </div>
+                        {form.watch('locationName') && (
+                            <div className="mt-4 p-5 rounded-[2rem] bg-indigo-600 text-white shadow-[0_20px_40px_-12px_rgba(79,70,229,0.4)] animate-in zoom-in-95 duration-500 border border-indigo-400/30 flex items-center gap-4">
+                                <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/10">
+                                    <MapPin className="h-6 w-6 text-white" />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black uppercase opacity-70 tracking-widest mb-0.5">Location Selezione</p>
+                                    <p className="text-xl font-black leading-tight tracking-tight">{form.watch('locationName')}</p>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Hidden Inputs for Form Submission Persistence */}
                         <input type="hidden" {...form.register('eventCity')} />
+                        <input type="hidden" {...form.register('locationName')} />
                         <input type="hidden" {...form.register('eventProvince')} />
                         <input type="hidden" {...form.register('eventRegion')} />
 
@@ -315,8 +413,9 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
                             </div>
                             <div className="flex items-center gap-4">
                                 <Button variant="ghost" onClick={() => setOpen(false)} type="button" className="rounded-2xl font-bold text-slate-400 hover:text-slate-600 px-6">Annulla</Button>
-                                <Button type="submit" disabled={loading} className="rounded-3xl bg-indigo-600 hover:bg-indigo-700 shadow-2xl shadow-indigo-200 font-black px-12 py-7 text-sm tracking-widest transition-all hover:scale-105 active:scale-95">
-                                    {loading ? 'Salvataggio...' : 'Conferma Geodati'}
+                                <Button type="submit" disabled={loading} className="rounded-3xl bg-indigo-600 hover:bg-indigo-700 shadow-2xl shadow-indigo-200 font-black px-12 py-7 text-sm tracking-widest transition-all hover:scale-105 active:scale-95 group">
+                                    {loading ? 'Salvataggio...' : 'Salva'}
+                                    {!loading && <CheckCircle2 className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />}
                                 </Button>
                             </div>
                         </DialogFooter>

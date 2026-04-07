@@ -5,11 +5,13 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import { format } from "date-fns"
-import { Mail, Phone, MapPin, Calendar, User, FileText, ArrowRight } from "lucide-react"
+import { Mail, Phone, MapPin, Calendar, User, FileText, ArrowRight, ArrowLeft } from "lucide-react"
 import QuoteBuilder from "@/components/quotes/quote-builder"
 import { LeadLocationActions } from "@/components/leads/lead-location-actions"
 import { EditLeadDialog } from "@/components/leads/edit-lead-dialog"
 import { Button } from "@/components/ui/button"
+import { LeadInternalNotes } from "@/components/leads/lead-internal-notes"
+import Link from "next/link"
 
 interface PageProps {
     params: { id: string }
@@ -24,18 +26,24 @@ export default async function LeadDetailPage(props: PageProps) {
     }
 
     return (
-        <div className="min-h-screen bg-[#f8fafc]">
-            {/* Header Moderno con Gradiente */}
-            <div className="bg-white border-b border-slate-200/60 pb-8 pt-6">
-                <div className="container mx-auto px-4">
+        <div className="space-y-8 pb-20">
+            {/* Header Section Moderno */}
+            <div className="bg-white rounded-[2rem] border border-slate-200/60 shadow-sm overflow-hidden mb-8">
+                <div className="px-8 lg:px-12 py-6 lg:py-8">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div className="space-y-2">
-                             <div className="flex items-center gap-3">
-                                <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-indigo-100">
+                             <div className="flex items-center gap-4">
+                                <Button variant="ghost" size="icon" asChild className="rounded-xl hover:bg-slate-100 transition-all text-slate-400 hover:text-indigo-600 h-12 w-12 shrink-0">
+                                    <Link href="/leads">
+                                        <ArrowLeft className="h-6 w-6" />
+                                    </Link>
+                                </Button>
+
+                                <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-indigo-100 shrink-0">
                                     <User className="h-6 w-6" />
                                 </div>
                                 <div>
-                                    <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
+                                    <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 leading-none">
                                         {lead.firstName} {lead.lastName}
                                     </h1>
                                     <div className="flex items-center gap-3 mt-1">
@@ -58,12 +66,12 @@ export default async function LeadDetailPage(props: PageProps) {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-8 space-y-8">
-                <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+            <div className="px-8 lg:px-12 py-4 space-y-4">
+                <div className="bg-white rounded-[1.5rem] p-3 shadow-sm border border-slate-100 flex items-center justify-between group hover:shadow-md transition-all duration-300">
                     <QuickActions lead={lead} />
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
                     <div className="lg:col-span-8 space-y-8">
                         {/* Main Info Tabs */}
                         <Tabs defaultValue="details" className="w-full">
@@ -117,16 +125,26 @@ export default async function LeadDetailPage(props: PageProps) {
                                         </CardContent>
                                     </Card>
 
-                                    <Card className="rounded-2xl border-slate-200/60 shadow-sm overflow-hidden">
+                                    <Card className="rounded-2xl border-slate-200/60 shadow-sm overflow-hidden group hover:border-indigo-200 transition-all">
                                         <CardHeader className="bg-slate-50/50 border-b border-slate-100 py-4">
-                                            <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Logistica</CardTitle>
+                                            <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                                                <MapPin className="h-4 w-4 text-rose-500" /> Logistica
+                                            </CardTitle>
                                         </CardHeader>
                                         <CardContent className="grid gap-5 pt-6">
                                             <div>
-                                                <p className="text-[10px] font-bold text-slate-400 uppercase transition-all">Posizione</p>
-                                                <div className="flex items-center gap-2 mt-1">
-                                                    <MapPin className="h-4 w-4 text-rose-500" />
-                                                    <span className="text-sm font-semibold text-slate-700">{lead.eventLocation || '-'}</span>
+                                                {(lead as any).locationName && (
+                                                    <div className="mb-3">
+                                                        <p className="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-1">Nome Location</p>
+                                                        <p className="text-xl font-black text-slate-900 leading-tight">{(lead as any).locationName}</p>
+                                                    </div>
+                                                )}
+                                                <div>
+                                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Indirizzo Formattato</p>
+                                                    <div className="flex items-start gap-2">
+                                                        <MapPin className="h-4 w-4 text-slate-300 mt-0.5" />
+                                                        <span className="text-sm font-medium text-slate-600 leading-relaxed">{lead.eventLocation || '-'}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             {lead.eventLocation && <LeadLocationActions lead={lead as any} />}
@@ -134,16 +152,6 @@ export default async function LeadDetailPage(props: PageProps) {
                                     </Card>
                                 </div>
 
-                                <Card className="rounded-2xl border-slate-200/60 shadow-sm">
-                                    <CardHeader className="py-4 border-b border-slate-100">
-                                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Note Interne</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="pt-6">
-                                        <p className="text-sm text-slate-600 leading-relaxed italic">
-                                            {lead.notesInternal || "Nessuna nota interna presente."}
-                                        </p>
-                                    </CardContent>
-                                </Card>
                             </TabsContent>
 
                             <TabsContent value="activities" className="pt-6 outline-none">
@@ -226,10 +234,21 @@ export default async function LeadDetailPage(props: PageProps) {
                                 </div>
                                 <div className="pt-4 border-t border-white/10">
                                     <p className="text-[10px] font-bold opacity-60 uppercase mb-2">Interesse Prodotto</p>
-                                    <Badge className="bg-white/10 hover:bg-white/20 border-white/20 py-1.5 px-4 rounded-xl text-indigo-100">
+                                    <Badge className="bg-white/10 hover:bg-white/20 border-white/20 py-1.5 px-4 rounded-xl text-indigo-100 font-bold uppercase text-[10px]">
                                         {lead.productInterest || 'Nessuna preferenza'}
                                     </Badge>
                                 </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="rounded-2xl border-slate-200/60 shadow-sm overflow-hidden bg-white">
+                            <CardHeader className="bg-slate-50/80 border-b border-slate-100 py-4">
+                                <CardTitle className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                                    <FileText className="h-3.5 w-3.5 text-indigo-500" /> Note Interne
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="pt-6 pb-6">
+                                <LeadInternalNotes leadId={lead.id} currentNotes={lead.notesInternal} />
                             </CardContent>
                         </Card>
                     </div>

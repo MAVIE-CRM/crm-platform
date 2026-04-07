@@ -10,10 +10,13 @@ export default async function LeadsPage() {
     const leads = await getLeads();
 
     return (
-        <div className="space-y-4 h-full">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold tracking-tight">Elenco Lead</h2>
-                <div className="flex gap-2">
+        <div className="space-y-8 h-full px-2">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+                <div>
+                    <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 leading-none">Elenco Lead</h2>
+                    <p className="text-slate-400 font-medium text-sm mt-2">Gestisci e monitora tutti i tuoi lead in un unico posto.</p>
+                </div>
+                <div className="flex gap-3">
                     <DeleteAllLeadsButton />
                     <Button variant="outline" asChild>
                         <Link href="/leads/import">

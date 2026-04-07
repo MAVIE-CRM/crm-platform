@@ -33,7 +33,8 @@ model Lead {
   guestsCount        Int?      // Invitati
   productInterest    String?   // Prodotto
   eventDate          DateTime? // Data Evento
-  eventLocation      String?   // Luogo Evento
+  eventLocation      String?   // Luogo Evento (Indirizzo Completo)
+  locationName       String?   // Nome Location (es: Villa Ravaschieri)
   eventCity          String?   // Città estratta
   eventProvince      String?   // Provincia estratta
   eventRegion        String?   // Regione estratta

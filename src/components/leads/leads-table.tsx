@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react"
-import { Lead } from "@prisma/client"
+import { Lead } from "../../generated/client"
 import {
     Table,
     TableBody,
@@ -40,7 +40,18 @@ const STAGES = [
 
 export function LeadsTable({ leads }: LeadsTableProps) {
     const [filterStage, setFilterStage] = useState<string | null>(null);
+    const [filterEventType, setFilterEventType] = useState<string | null>(null);
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'leadCreatedAt', direction: 'desc' });
+
+    const EVENT_TYPES = [
+        "MATRIMONIO",
+        "BATTESIMO",
+        "COMUNIONE",
+        "LAUREA",
+        "COMPLEANNO",
+        "EVENTO AZIENDALE",
+        "ALTRO"
+    ]
 
     const handleSort = (key: 'leadCreatedAt' | 'eventDate') => {
         setSortConfig((prev) => {
@@ -56,9 +67,19 @@ export function LeadsTable({ leads }: LeadsTableProps) {
         return sortConfig.direction === 'asc' ? <ArrowUp className="ml-2 h-4 w-4" /> : <ArrowDown className="ml-2 h-4 w-4" />;
     };
 
-    const filteredLeads = [...(filterStage
-        ? leads.filter(lead => lead.stage === filterStage)
-        : leads)].sort((a, b) => {
+    const filteredLeads = [...leads]
+        .filter(lead => {
+            if (filterStage && lead.stage !== filterStage) return false;
+            if (filterEventType) {
+                if (filterEventType === 'ALTRO') {
+                    // Se filtriamo per ALTRO, mostriamo solo quelli che NON sono nei tipi definiti (esclusi gli null/empty)
+                    return lead.eventType && !EVENT_TYPES.slice(0, -1).includes(lead.eventType);
+                }
+                return lead.eventType === filterEventType;
+            }
+            return true;
+        })
+        .sort((a, b) => {
             if (!sortConfig) return 0;
             const { key, direction } = sortConfig;
 
@@ -71,46 +92,72 @@ export function LeadsTable({ leads }: LeadsTableProps) {
 
     return (
         <div className="space-y-4">
-            <div className="flex flex-wrap items-center gap-2 p-4 bg-slate-50 border rounded-lg">
-                <span className="text-sm font-medium text-slate-500 mr-2 flex items-center gap-1">
-                    Filtra per stato:
-                </span>
-                {STAGES.map((stage) => (
-                    <Button
-                        key={stage}
-                        variant={filterStage === stage ? "default" : "outline"}
-                        size="sm"
-                        className={cn(
-                            "h-8 px-3 text-xs capitalize",
-                            filterStage === stage && "bg-slate-900 text-white"
-                        )}
-                        onClick={() => setFilterStage(stage)}
-                    >
-                        {stage.toLowerCase()}
-                    </Button>
-                ))}
+            <div className="flex flex-col gap-4 p-4 bg-slate-50 border rounded-xl shadow-sm">
+                <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-2">
+                        Stato Lead:
+                    </span>
+                    {STAGES.map((stage) => (
+                        <Button
+                            key={stage}
+                            variant={filterStage === stage ? "default" : "outline"}
+                            size="sm"
+                            className={cn(
+                                "h-7 px-3 text-[10px] font-bold uppercase rounded-full transition-all",
+                                filterStage === stage ? "bg-slate-900 border-slate-950 shadow-md" : "hover:border-slate-400"
+                            )}
+                            onClick={() => setFilterStage(filterStage === stage ? null : stage)}
+                        >
+                            {stage.toLowerCase()}
+                        </Button>
+                    ))}
+                </div>
 
-                {filterStage && (
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 px-3 text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
-                        onClick={() => setFilterStage(null)}
-                    >
-                        <FilterX className="h-3 w-3 mr-1" />
-                        Elimina filtro
-                    </Button>
-                )}
+                <div className="flex flex-wrap items-center gap-2 border-t border-slate-200/60 pt-3">
+                    <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mr-2">
+                        Tipo Evento:
+                    </span>
+                    {EVENT_TYPES.map((type) => (
+                        <Button
+                            key={type}
+                            variant={filterEventType === type ? "default" : "outline"}
+                            size="sm"
+                            className={cn(
+                                "h-7 px-3 text-[10px] font-bold uppercase rounded-full transition-all",
+                                filterEventType === type ? "bg-indigo-600 border-indigo-700 shadow-md text-white hover:bg-indigo-700" : "hover:border-indigo-300 text-indigo-600 border-indigo-100"
+                            )}
+                            onClick={() => setFilterEventType(filterEventType === type ? null : type)}
+                        >
+                            {type}
+                        </Button>
+                    ))}
+
+                    {(filterStage || filterEventType) && (
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-7 px-3 text-[10px] font-black text-rose-500 hover:text-rose-700 hover:bg-rose-50 uppercase tracking-tighter"
+                            onClick={() => {
+                                setFilterStage(null);
+                                setFilterEventType(null);
+                            }}
+                        >
+                            <FilterX className="h-3 w-3 mr-1" />
+                            Resetta filtri
+                        </Button>
+                    )}
+                </div>
             </div>
 
-            <div className="rounded-md border bg-white overflow-hidden">
+            <div className="rounded-[1.5rem] border border-slate-100 bg-white overflow-hidden shadow-xl shadow-slate-100">
                 <div className="overflow-x-auto">
                     <Table>
-                        <TableHeader className="bg-slate-50 font-semibold italic text-slate-700">
+                        <TableHeader className="bg-slate-50/50 font-black italic text-slate-700 border-b border-slate-100">
                             <TableRow>
-                                <TableHead className="w-[80px]">Azioni</TableHead>
+                                <TableHead className="w-[80px] px-6">Azioni</TableHead>
                                 <TableHead className="min-w-[150px]">Nome Cliente</TableHead>
                                 <TableHead>Stato</TableHead>
+                                <TableHead className="min-w-[130px]">Tipo Evento</TableHead>
                                 <TableHead
                                     className="min-w-[120px] cursor-pointer hover:bg-slate-100 transition-colors"
                                     onClick={() => handleSort('leadCreatedAt')}
@@ -129,29 +176,29 @@ export function LeadsTable({ leads }: LeadsTableProps) {
                                 </TableHead>
                                 <TableHead className="min-w-[120px]">Prodotto</TableHead>
                                 <TableHead className="min-w-[150px]">Località</TableHead>
-                                <TableHead className="min-w-[200px]">Quick Actions</TableHead>
+                                <TableHead className="min-w-[200px] px-6">Quick Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {filteredLeads.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={8} className="h-24 text-center text-slate-500">
-                                        Nessun lead trovato.
+                                    <TableCell colSpan={9} className="h-32 text-center text-slate-400 font-bold uppercase text-[11px] tracking-widest">
+                                        Nessun lead trovato con questi filtri.
                                     </TableCell>
                                 </TableRow>
                             ) : (
                                 filteredLeads.map((lead) => (
-                                    <TableRow key={lead.id} className="hover:bg-slate-50 transition-colors">
-                                        <TableCell>
-                                            <Button variant="ghost" size="sm" asChild className="hover:bg-slate-200">
+                                    <TableRow key={lead.id} className="group hover:bg-indigo-50/20 transition-all border-b border-slate-50 last:border-0">
+                                        <TableCell className="px-6">
+                                            <Button variant="ghost" size="sm" asChild className="rounded-xl hover:bg-white hover:shadow-md transition-all">
                                                 <Link href={`/leads/${lead.id}`}>
-                                                    <Eye className="h-4 w-4" />
+                                                    <Eye className="h-4 w-4 text-indigo-600" />
                                                 </Link>
                                             </Button>
                                         </TableCell>
-                                        <TableCell className="font-medium">
+                                        <TableCell className="font-bold text-slate-800">
                                             {lead.firstName} {lead.lastName}
-                                            <div className="text-xs text-muted-foreground font-normal">
+                                            <div className="text-[10px] text-slate-400 font-medium tracking-tight">
                                                 {lead.email}
                                             </div>
                                         </TableCell>
@@ -160,19 +207,46 @@ export function LeadsTable({ leads }: LeadsTableProps) {
                                                 lead.stage === 'NUOVO' ? 'default' :
                                                     lead.stage === 'VINTO' ? 'success' as any :
                                                         lead.stage === 'PERSO' ? 'destructive' : 'secondary'
-                                            } className="font-semibold px-2 py-0.5">
+                                            } className="font-black text-[9px] px-2 py-0.5 rounded-lg tracking-tighter uppercase">
                                                 {lead.stage}
                                             </Badge>
                                         </TableCell>
                                         <TableCell>
+                                            {lead.eventType ? (
+                                                <Badge className={cn(
+                                                    "font-black text-[9px] px-2.5 py-1 rounded-lg uppercase tracking-tight shadow-sm border-none transition-all hover:scale-105",
+                                                    lead.eventType === 'MATRIMONIO' ? 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200' :
+                                                    lead.eventType === 'BATTESIMO' ? 'bg-sky-100 text-sky-700 hover:bg-sky-200' :
+                                                    lead.eventType === 'COMUNIONE' ? 'bg-violet-100 text-violet-700 hover:bg-violet-200' :
+                                                    lead.eventType === 'LAUREA' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' :
+                                                    lead.eventType === 'COMPLEANNO' ? 'bg-pink-100 text-pink-700 hover:bg-pink-200' :
+                                                    lead.eventType === 'EVENTO AZIENDALE' ? 'bg-slate-800 text-slate-100 hover:bg-slate-900' :
+                                                    'bg-amber-100 text-amber-700 hover:bg-amber-200'
+                                                )}>
+                                                    {lead.eventType}
+                                                </Badge>
+                                            ) : (
+                                                <span className="text-slate-300 font-bold text-[10px] italic">Non specificato</span>
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="font-medium text-slate-600 text-xs">
                                             {lead.leadCreatedAt ? format(new Date(lead.leadCreatedAt), 'dd/MM/yyyy') : '-'}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className="font-bold text-indigo-600 text-xs">
                                             {lead.eventDate ? format(new Date(lead.eventDate), 'dd/MM/yyyy') : '-'}
                                         </TableCell>
-                                        <TableCell>{lead.productInterest || '-'}</TableCell>
-                                        <TableCell>{lead.eventLocation || '-'}</TableCell>
+                                        <TableCell className="text-slate-500 font-medium text-xs">{lead.productInterest || '-'}</TableCell>
                                         <TableCell>
+                                            <div className="flex flex-col gap-0.5">
+                                                <span className="font-bold text-slate-800 text-[11px] leading-tight">
+                                                    {(lead as any).locationName || (lead.eventLocation?.split(',')[0]) || '-'}
+                                                </span>
+                                                <span className="text-[9px] text-slate-400 font-medium truncate max-w-[150px] italic">
+                                                    {lead.eventLocation || '-'}
+                                                </span>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="px-6">
                                             <QuickActions lead={lead} />
                                         </TableCell>
                                     </TableRow>

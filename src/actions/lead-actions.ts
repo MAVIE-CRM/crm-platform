@@ -116,13 +116,13 @@ export async function updateLeadDetails(id: string, data: any) {
     try {
         await (prisma as any).$executeRawUnsafe(`
             UPDATE "Lead" 
-            SET "eventCity" = ?, "eventProvince" = ?, "eventRegion" = ?, "eventLocation" = ?, 
+            SET "eventCity" = ?, "eventProvince" = ?, "eventRegion" = ?, "eventLocation" = ?, "locationName" = ?,
                 "firstName" = ?, "lastName" = ?, "email" = ?, "phoneRaw" = ?, 
                 "eventType" = ?, "eventDate" = ?, "guestsCount" = ?, "productInterest" = ?, 
                 "updatedAt" = CURRENT_TIMESTAMP
             WHERE "id" = ?
         `, 
-        data.eventCity || null, data.eventProvince || null, data.eventRegion || null, data.eventLocation || null, 
+        data.eventCity || null, data.eventProvince || null, data.eventRegion || null, data.eventLocation || null, data.locationName || null,
         data.firstName || null, data.lastName || null, data.email || null, data.phone || null, 
         data.eventType || null, data.eventDate ? new Date(data.eventDate).toISOString() : null, 
         data.guestsCount ? parseInt(data.guestsCount) : null, data.productInterest || null, id);
