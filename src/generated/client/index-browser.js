@@ -116,6 +116,9 @@ Prisma.NullTypes = {
  */
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -138,6 +141,7 @@ exports.Prisma.LeadScalarFieldEnum = {
   productInterest: 'productInterest',
   eventDate: 'eventDate',
   eventLocation: 'eventLocation',
+  locationName: 'locationName',
   eventCity: 'eventCity',
   eventProvince: 'eventProvince',
   eventRegion: 'eventRegion',
@@ -214,6 +218,11 @@ exports.Prisma.AppointmentScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 
 exports.Prisma.NullsOrder = {

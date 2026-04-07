@@ -2213,6 +2213,7 @@ export namespace Prisma {
      * The data used to create many Users.
      */
     data: UserCreateManyInput | UserCreateManyInput[]
+    skipDuplicates?: boolean
   }
 
   /**
@@ -2227,6 +2228,7 @@ export namespace Prisma {
      * The data used to create many Users.
      */
     data: UserCreateManyInput | UserCreateManyInput[]
+    skipDuplicates?: boolean
   }
 
   /**
@@ -2387,12 +2389,10 @@ export namespace Prisma {
   }
 
   export type LeadAvgAggregateOutputType = {
-    guestsCount: number | null
     priceTarget: Decimal | null
   }
 
   export type LeadSumAggregateOutputType = {
-    guestsCount: number | null
     priceTarget: Decimal | null
   }
 
@@ -2402,10 +2402,11 @@ export namespace Prisma {
     leadCreatedAt: Date | null
     countryCode: string | null
     eventType: string | null
-    guestsCount: number | null
+    guestsCount: string | null
     productInterest: string | null
     eventDate: Date | null
     eventLocation: string | null
+    locationName: string | null
     eventCity: string | null
     eventProvince: string | null
     eventRegion: string | null
@@ -2437,10 +2438,11 @@ export namespace Prisma {
     leadCreatedAt: Date | null
     countryCode: string | null
     eventType: string | null
-    guestsCount: number | null
+    guestsCount: string | null
     productInterest: string | null
     eventDate: Date | null
     eventLocation: string | null
+    locationName: string | null
     eventCity: string | null
     eventProvince: string | null
     eventRegion: string | null
@@ -2476,6 +2478,7 @@ export namespace Prisma {
     productInterest: number
     eventDate: number
     eventLocation: number
+    locationName: number
     eventCity: number
     eventProvince: number
     eventRegion: number
@@ -2504,12 +2507,10 @@ export namespace Prisma {
 
 
   export type LeadAvgAggregateInputType = {
-    guestsCount?: true
     priceTarget?: true
   }
 
   export type LeadSumAggregateInputType = {
-    guestsCount?: true
     priceTarget?: true
   }
 
@@ -2523,6 +2524,7 @@ export namespace Prisma {
     productInterest?: true
     eventDate?: true
     eventLocation?: true
+    locationName?: true
     eventCity?: true
     eventProvince?: true
     eventRegion?: true
@@ -2558,6 +2560,7 @@ export namespace Prisma {
     productInterest?: true
     eventDate?: true
     eventLocation?: true
+    locationName?: true
     eventCity?: true
     eventProvince?: true
     eventRegion?: true
@@ -2593,6 +2596,7 @@ export namespace Prisma {
     productInterest?: true
     eventDate?: true
     eventLocation?: true
+    locationName?: true
     eventCity?: true
     eventProvince?: true
     eventRegion?: true
@@ -2711,10 +2715,11 @@ export namespace Prisma {
     leadCreatedAt: Date | null
     countryCode: string | null
     eventType: string | null
-    guestsCount: number | null
+    guestsCount: string | null
     productInterest: string | null
     eventDate: Date | null
     eventLocation: string | null
+    locationName: string | null
     eventCity: string | null
     eventProvince: string | null
     eventRegion: string | null
@@ -2769,6 +2774,7 @@ export namespace Prisma {
     productInterest?: boolean
     eventDate?: boolean
     eventLocation?: boolean
+    locationName?: boolean
     eventCity?: boolean
     eventProvince?: boolean
     eventRegion?: boolean
@@ -2809,6 +2815,7 @@ export namespace Prisma {
     productInterest?: boolean
     eventDate?: boolean
     eventLocation?: boolean
+    locationName?: boolean
     eventCity?: boolean
     eventProvince?: boolean
     eventRegion?: boolean
@@ -2845,6 +2852,7 @@ export namespace Prisma {
     productInterest?: boolean
     eventDate?: boolean
     eventLocation?: boolean
+    locationName?: boolean
     eventCity?: boolean
     eventProvince?: boolean
     eventRegion?: boolean
@@ -2895,10 +2903,11 @@ export namespace Prisma {
       leadCreatedAt: Date | null
       countryCode: string | null
       eventType: string | null
-      guestsCount: number | null
+      guestsCount: string | null
       productInterest: string | null
       eventDate: Date | null
       eventLocation: string | null
+      locationName: string | null
       eventCity: string | null
       eventProvince: string | null
       eventRegion: string | null
@@ -3324,10 +3333,11 @@ export namespace Prisma {
     readonly leadCreatedAt: FieldRef<"Lead", 'DateTime'>
     readonly countryCode: FieldRef<"Lead", 'String'>
     readonly eventType: FieldRef<"Lead", 'String'>
-    readonly guestsCount: FieldRef<"Lead", 'Int'>
+    readonly guestsCount: FieldRef<"Lead", 'String'>
     readonly productInterest: FieldRef<"Lead", 'String'>
     readonly eventDate: FieldRef<"Lead", 'DateTime'>
     readonly eventLocation: FieldRef<"Lead", 'String'>
+    readonly locationName: FieldRef<"Lead", 'String'>
     readonly eventCity: FieldRef<"Lead", 'String'>
     readonly eventProvince: FieldRef<"Lead", 'String'>
     readonly eventRegion: FieldRef<"Lead", 'String'>
@@ -3556,6 +3566,7 @@ export namespace Prisma {
      * The data used to create many Leads.
      */
     data: LeadCreateManyInput | LeadCreateManyInput[]
+    skipDuplicates?: boolean
   }
 
   /**
@@ -3570,6 +3581,7 @@ export namespace Prisma {
      * The data used to create many Leads.
      */
     data: LeadCreateManyInput | LeadCreateManyInput[]
+    skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -4574,6 +4586,7 @@ export namespace Prisma {
      * The data used to create many Activities.
      */
     data: ActivityCreateManyInput | ActivityCreateManyInput[]
+    skipDuplicates?: boolean
   }
 
   /**
@@ -4588,6 +4601,7 @@ export namespace Prisma {
      * The data used to create many Activities.
      */
     data: ActivityCreateManyInput | ActivityCreateManyInput[]
+    skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -5625,6 +5639,7 @@ export namespace Prisma {
      * The data used to create many Quotes.
      */
     data: QuoteCreateManyInput | QuoteCreateManyInput[]
+    skipDuplicates?: boolean
   }
 
   /**
@@ -5639,6 +5654,7 @@ export namespace Prisma {
      * The data used to create many Quotes.
      */
     data: QuoteCreateManyInput | QuoteCreateManyInput[]
+    skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -6662,6 +6678,7 @@ export namespace Prisma {
      * The data used to create many QuoteItems.
      */
     data: QuoteItemCreateManyInput | QuoteItemCreateManyInput[]
+    skipDuplicates?: boolean
   }
 
   /**
@@ -6676,6 +6693,7 @@ export namespace Prisma {
      * The data used to create many QuoteItems.
      */
     data: QuoteItemCreateManyInput | QuoteItemCreateManyInput[]
+    skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -7705,6 +7723,7 @@ export namespace Prisma {
      * The data used to create many Appointments.
      */
     data: AppointmentCreateManyInput | AppointmentCreateManyInput[]
+    skipDuplicates?: boolean
   }
 
   /**
@@ -7719,6 +7738,7 @@ export namespace Prisma {
      * The data used to create many Appointments.
      */
     data: AppointmentCreateManyInput | AppointmentCreateManyInput[]
+    skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
@@ -7835,6 +7855,9 @@ export namespace Prisma {
    */
 
   export const TransactionIsolationLevel: {
+    ReadUncommitted: 'ReadUncommitted',
+    ReadCommitted: 'ReadCommitted',
+    RepeatableRead: 'RepeatableRead',
     Serializable: 'Serializable'
   };
 
@@ -7863,6 +7886,7 @@ export namespace Prisma {
     productInterest: 'productInterest',
     eventDate: 'eventDate',
     eventLocation: 'eventLocation',
+    locationName: 'locationName',
     eventCity: 'eventCity',
     eventProvince: 'eventProvince',
     eventRegion: 'eventRegion',
@@ -7959,6 +7983,14 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
+  };
+
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
   export const NullsOrder: {
     first: 'first',
     last: 'last'
@@ -7980,6 +8012,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'String[]'
+   */
+  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -7987,9 +8026,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'DateTime[]'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -8001,9 +8040,37 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -8082,10 +8149,11 @@ export namespace Prisma {
     leadCreatedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     countryCode?: StringNullableFilter<"Lead"> | string | null
     eventType?: StringNullableFilter<"Lead"> | string | null
-    guestsCount?: IntNullableFilter<"Lead"> | number | null
+    guestsCount?: StringNullableFilter<"Lead"> | string | null
     productInterest?: StringNullableFilter<"Lead"> | string | null
     eventDate?: DateTimeNullableFilter<"Lead"> | Date | string | null
     eventLocation?: StringNullableFilter<"Lead"> | string | null
+    locationName?: StringNullableFilter<"Lead"> | string | null
     eventCity?: StringNullableFilter<"Lead"> | string | null
     eventProvince?: StringNullableFilter<"Lead"> | string | null
     eventRegion?: StringNullableFilter<"Lead"> | string | null
@@ -8125,6 +8193,7 @@ export namespace Prisma {
     productInterest?: SortOrderInput | SortOrder
     eventDate?: SortOrderInput | SortOrder
     eventLocation?: SortOrderInput | SortOrder
+    locationName?: SortOrderInput | SortOrder
     eventCity?: SortOrderInput | SortOrder
     eventProvince?: SortOrderInput | SortOrder
     eventRegion?: SortOrderInput | SortOrder
@@ -8163,10 +8232,11 @@ export namespace Prisma {
     leadCreatedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     countryCode?: StringNullableFilter<"Lead"> | string | null
     eventType?: StringNullableFilter<"Lead"> | string | null
-    guestsCount?: IntNullableFilter<"Lead"> | number | null
+    guestsCount?: StringNullableFilter<"Lead"> | string | null
     productInterest?: StringNullableFilter<"Lead"> | string | null
     eventDate?: DateTimeNullableFilter<"Lead"> | Date | string | null
     eventLocation?: StringNullableFilter<"Lead"> | string | null
+    locationName?: StringNullableFilter<"Lead"> | string | null
     eventCity?: StringNullableFilter<"Lead"> | string | null
     eventProvince?: StringNullableFilter<"Lead"> | string | null
     eventRegion?: StringNullableFilter<"Lead"> | string | null
@@ -8206,6 +8276,7 @@ export namespace Prisma {
     productInterest?: SortOrderInput | SortOrder
     eventDate?: SortOrderInput | SortOrder
     eventLocation?: SortOrderInput | SortOrder
+    locationName?: SortOrderInput | SortOrder
     eventCity?: SortOrderInput | SortOrder
     eventProvince?: SortOrderInput | SortOrder
     eventRegion?: SortOrderInput | SortOrder
@@ -8245,10 +8316,11 @@ export namespace Prisma {
     leadCreatedAt?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     countryCode?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     eventType?: StringNullableWithAggregatesFilter<"Lead"> | string | null
-    guestsCount?: IntNullableWithAggregatesFilter<"Lead"> | number | null
+    guestsCount?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     productInterest?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     eventDate?: DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
     eventLocation?: StringNullableWithAggregatesFilter<"Lead"> | string | null
+    locationName?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     eventCity?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     eventProvince?: StringNullableWithAggregatesFilter<"Lead"> | string | null
     eventRegion?: StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -8663,10 +8735,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -8701,10 +8774,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -8739,10 +8813,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8777,10 +8852,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8815,10 +8891,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -8850,10 +8927,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8884,10 +8962,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9250,8 +9329,8 @@ export namespace Prisma {
 
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -9259,13 +9338,14 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -9273,13 +9353,14 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -9341,8 +9422,8 @@ export namespace Prisma {
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -9350,6 +9431,7 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
     not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
@@ -9358,8 +9440,8 @@ export namespace Prisma {
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -9367,6 +9449,7 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
     not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
@@ -9375,8 +9458,8 @@ export namespace Prisma {
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -9389,8 +9472,8 @@ export namespace Prisma {
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -9398,21 +9481,10 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type DecimalNullableFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
     lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
@@ -9455,6 +9527,7 @@ export namespace Prisma {
     productInterest?: SortOrder
     eventDate?: SortOrder
     eventLocation?: SortOrder
+    locationName?: SortOrder
     eventCity?: SortOrder
     eventProvince?: SortOrder
     eventRegion?: SortOrder
@@ -9481,7 +9554,6 @@ export namespace Prisma {
   }
 
   export type LeadAvgOrderByAggregateInput = {
-    guestsCount?: SortOrder
     priceTarget?: SortOrder
   }
 
@@ -9495,6 +9567,7 @@ export namespace Prisma {
     productInterest?: SortOrder
     eventDate?: SortOrder
     eventLocation?: SortOrder
+    locationName?: SortOrder
     eventCity?: SortOrder
     eventProvince?: SortOrder
     eventRegion?: SortOrder
@@ -9530,6 +9603,7 @@ export namespace Prisma {
     productInterest?: SortOrder
     eventDate?: SortOrder
     eventLocation?: SortOrder
+    locationName?: SortOrder
     eventCity?: SortOrder
     eventProvince?: SortOrder
     eventRegion?: SortOrder
@@ -9556,14 +9630,13 @@ export namespace Prisma {
   }
 
   export type LeadSumOrderByAggregateInput = {
-    guestsCount?: SortOrder
     priceTarget?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -9574,26 +9647,10 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
   export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
     lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
@@ -9640,8 +9697,8 @@ export namespace Prisma {
 
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
@@ -9651,8 +9708,8 @@ export namespace Prisma {
 
   export type DecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
     lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
@@ -9726,8 +9783,8 @@ export namespace Prisma {
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
@@ -9742,8 +9799,8 @@ export namespace Prisma {
 
   export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
     lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
@@ -10013,14 +10070,6 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type NullableDecimalFieldUpdateOperationsInput = {
     set?: Decimal | DecimalJsLike | number | string | null
     increment?: Decimal | DecimalJsLike | number | string
@@ -10253,8 +10302,8 @@ export namespace Prisma {
 
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -10267,8 +10316,8 @@ export namespace Prisma {
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -10281,8 +10330,8 @@ export namespace Prisma {
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -10292,8 +10341,8 @@ export namespace Prisma {
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -10309,8 +10358,8 @@ export namespace Prisma {
 
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
@@ -10320,8 +10369,8 @@ export namespace Prisma {
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -10337,8 +10386,8 @@ export namespace Prisma {
 
   export type NestedIntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
@@ -10348,8 +10397,8 @@ export namespace Prisma {
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -10362,8 +10411,8 @@ export namespace Prisma {
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -10373,8 +10422,8 @@ export namespace Prisma {
 
   export type NestedDecimalNullableFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
     lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
@@ -10384,8 +10433,8 @@ export namespace Prisma {
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -10396,37 +10445,10 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
     lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
@@ -10441,8 +10463,8 @@ export namespace Prisma {
 
   export type NestedDecimalFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
     lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
@@ -10452,8 +10474,8 @@ export namespace Prisma {
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
@@ -10468,8 +10490,8 @@ export namespace Prisma {
 
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
@@ -10479,8 +10501,8 @@ export namespace Prisma {
 
   export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
     lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
@@ -10499,10 +10521,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -10536,10 +10559,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -10574,6 +10598,7 @@ export namespace Prisma {
 
   export type LeadCreateManyOwnerInputEnvelope = {
     data: LeadCreateManyOwnerInput | LeadCreateManyOwnerInput[]
+    skipDuplicates?: boolean
   }
 
   export type AppointmentCreateWithoutOwnerInput = {
@@ -10609,6 +10634,7 @@ export namespace Prisma {
 
   export type AppointmentCreateManyOwnerInputEnvelope = {
     data: AppointmentCreateManyOwnerInput | AppointmentCreateManyOwnerInput[]
+    skipDuplicates?: boolean
   }
 
   export type LeadUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -10636,10 +10662,11 @@ export namespace Prisma {
     leadCreatedAt?: DateTimeNullableFilter<"Lead"> | Date | string | null
     countryCode?: StringNullableFilter<"Lead"> | string | null
     eventType?: StringNullableFilter<"Lead"> | string | null
-    guestsCount?: IntNullableFilter<"Lead"> | number | null
+    guestsCount?: StringNullableFilter<"Lead"> | string | null
     productInterest?: StringNullableFilter<"Lead"> | string | null
     eventDate?: DateTimeNullableFilter<"Lead"> | Date | string | null
     eventLocation?: StringNullableFilter<"Lead"> | string | null
+    locationName?: StringNullableFilter<"Lead"> | string | null
     eventCity?: StringNullableFilter<"Lead"> | string | null
     eventProvince?: StringNullableFilter<"Lead"> | string | null
     eventRegion?: StringNullableFilter<"Lead"> | string | null
@@ -10746,6 +10773,7 @@ export namespace Prisma {
 
   export type ActivityCreateManyLeadInputEnvelope = {
     data: ActivityCreateManyLeadInput | ActivityCreateManyLeadInput[]
+    skipDuplicates?: boolean
   }
 
   export type QuoteCreateWithoutLeadInput = {
@@ -10783,6 +10811,7 @@ export namespace Prisma {
 
   export type QuoteCreateManyLeadInputEnvelope = {
     data: QuoteCreateManyLeadInput | QuoteCreateManyLeadInput[]
+    skipDuplicates?: boolean
   }
 
   export type AppointmentCreateWithoutLeadInput = {
@@ -10818,6 +10847,7 @@ export namespace Prisma {
 
   export type AppointmentCreateManyLeadInputEnvelope = {
     data: AppointmentCreateManyLeadInput | AppointmentCreateManyLeadInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutLeadsInput = {
@@ -10934,10 +10964,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -10971,10 +11002,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -11024,10 +11056,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11061,10 +11094,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11098,10 +11132,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -11135,10 +11170,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -11198,6 +11234,7 @@ export namespace Prisma {
 
   export type QuoteItemCreateManyQuoteInputEnvelope = {
     data: QuoteItemCreateManyQuoteInput | QuoteItemCreateManyQuoteInput[]
+    skipDuplicates?: boolean
   }
 
   export type LeadUpsertWithoutQuotesInput = {
@@ -11217,10 +11254,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11254,10 +11292,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11393,10 +11432,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -11430,10 +11470,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -11508,10 +11549,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11545,10 +11587,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11613,10 +11656,11 @@ export namespace Prisma {
     leadCreatedAt?: Date | string | null
     countryCode?: string | null
     eventType?: string | null
-    guestsCount?: number | null
+    guestsCount?: string | null
     productInterest?: string | null
     eventDate?: Date | string | null
     eventLocation?: string | null
+    locationName?: string | null
     eventCity?: string | null
     eventProvince?: string | null
     eventRegion?: string | null
@@ -11660,10 +11704,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11697,10 +11742,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11734,10 +11780,11 @@ export namespace Prisma {
     leadCreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     countryCode?: NullableStringFieldUpdateOperationsInput | string | null
     eventType?: NullableStringFieldUpdateOperationsInput | string | null
-    guestsCount?: NullableIntFieldUpdateOperationsInput | number | null
+    guestsCount?: NullableStringFieldUpdateOperationsInput | string | null
     productInterest?: NullableStringFieldUpdateOperationsInput | string | null
     eventDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     eventLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    locationName?: NullableStringFieldUpdateOperationsInput | string | null
     eventCity?: NullableStringFieldUpdateOperationsInput | string | null
     eventProvince?: NullableStringFieldUpdateOperationsInput | string | null
     eventRegion?: NullableStringFieldUpdateOperationsInput | string | null

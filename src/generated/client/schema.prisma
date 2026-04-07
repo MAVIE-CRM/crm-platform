@@ -7,8 +7,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -30,10 +31,11 @@ model Lead {
   leadCreatedAt        DateTime? // Data Lead
   countryCode          String? // Codice Paese
   eventType            String? // Tipologia Evento
-  guestsCount          Int? // Invitati
+  guestsCount          String? // Invitati
   productInterest      String? // Prodotto
   eventDate            DateTime? // Data Evento
-  eventLocation        String? // Luogo Evento
+  eventLocation        String? // Luogo Evento (Indirizzo Completo)
+  locationName         String? // Nome Location (es: Villa Ravaschieri)
   eventCity            String? // Città estratta
   eventProvince        String? // Provincia estratta
   eventRegion          String? // Regione estratta
