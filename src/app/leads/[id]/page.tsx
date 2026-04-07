@@ -5,17 +5,22 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import { format } from "date-fns"
-import { Mail, Phone, MapPin, Calendar, User, FileText, ArrowRight, ArrowLeft } from "lucide-react"
+import { Mail, Phone, MapPin, Calendar, User, FileText, ArrowRight, ArrowLeft, MessageSquare, ExternalLink } from "lucide-react"
 import QuoteBuilder from "@/components/quotes/quote-builder"
 import { LeadLocationActions } from "@/components/leads/lead-location-actions"
 import { EditLeadDialog } from "@/components/leads/edit-lead-dialog"
+import { DeleteLeadButton } from "@/components/leads/delete-lead-button"
 import { Button } from "@/components/ui/button"
 import { LeadInternalNotes } from "@/components/leads/lead-internal-notes"
 import Link from "next/link"
 
+import { LeadWhatsAppButtons } from "@/components/leads/lead-whatsapp-buttons"
+
 interface PageProps {
     params: { id: string }
 }
+
+import { LeadWhatsAppChat } from "@/components/leads/lead-whatsapp-chat"
 
 export default async function LeadDetailPage(props: PageProps) {
     const params = await props.params;
@@ -61,6 +66,7 @@ export default async function LeadDetailPage(props: PageProps) {
                         </div>
                         <div className="flex items-center gap-3">
                             <EditLeadDialog lead={lead as any} />
+                            <DeleteLeadButton leadId={lead.id} variant="destructive" size="icon" showText={false} />
                         </div>
                     </div>
                 </div>
@@ -71,17 +77,37 @@ export default async function LeadDetailPage(props: PageProps) {
                     <QuickActions lead={lead} />
                 </div>
 
+                {/* Additional Delete Option at the bottom */}
+                <div className="flex justify-end pt-8">
+                    <div className="p-1 px-4 flex items-center gap-3 bg-slate-50/50 rounded-full border border-slate-100 hover:bg-slate-100/80 transition-all duration-300 group">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-2 opacity-0 group-hover:opacity-100 transition-opacity">Zona Pericolo ⚠️</span>
+                        <DeleteLeadButton leadId={lead.id} variant="ghost" size="icon" showText={false} />
+                    </div>
+                </div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
                     <div className="lg:col-span-8 space-y-8">
                         {/* Main Info Tabs */}
                         <Tabs defaultValue="details" className="w-full">
                             <TabsList className="bg-slate-100/50 p-1 rounded-xl">
                                 <TabsTrigger value="details" className="rounded-lg px-6">Dettagli</TabsTrigger>
+                                <TabsTrigger value="chat" className="rounded-lg px-6 flex items-center gap-2 tracking-tight font-bold">
+                                    <MessageSquare className="h-4 w-4 text-emerald-500" />
+                                    Chat WhatsApp
+                                </TabsTrigger>
                                 <TabsTrigger value="activities" className="rounded-lg px-6">Timeline</TabsTrigger>
                                 <TabsTrigger value="quotes" className="rounded-lg px-6">Preventivi</TabsTrigger>
                             </TabsList>
 
-                            <TabsContent value="details" className="space-y-6 pt-6 outline-none">
+                            <TabsContent value="chat" className="pt-6 outline-none animate-in fade-in zoom-in-95 duration-500">
+                                <LeadWhatsAppChat 
+                                    leadId={lead.id} 
+                                    leadName={`${lead.firstName} ${lead.lastName}`}
+                                    phone={lead.phoneRaw}
+                                />
+                            </TabsContent>
+
+                            <TabsContent value="details" className="space-y-6 pt-6 outline-none animate-in fade-in zoom-in-95 duration-500">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <Card className="rounded-2xl border-slate-200/60 shadow-sm overflow-hidden">
                                         <CardHeader className="bg-slate-50/50 border-b border-slate-100 py-4">
@@ -98,14 +124,17 @@ export default async function LeadDetailPage(props: PageProps) {
                                                 </div>
                                             </div>
 
-                                            <div className="flex items-center gap-4 group">
-                                                <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all">
-                                                    <Phone className="h-5 w-5" />
+                                            <div className="flex items-center justify-between group">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                                                        <Phone className="h-5 w-5" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[10px] font-bold text-slate-400 uppercase">Telefono</p>
+                                                        <p className="text-sm font-semibold">{lead.phoneRaw || '-'}</p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p className="text-[10px] font-bold text-slate-400 uppercase">Telefono</p>
-                                                    <p className="text-sm font-semibold">{lead.phoneRaw || '-'}</p>
-                                                </div>
+                                                <LeadWhatsAppButtons phone={lead.phoneRaw} />
                                             </div>
 
                                             <Separator />

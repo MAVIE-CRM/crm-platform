@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Send, FileText, Loader2 } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { addLeadNoteAction } from "@/actions/add-lead-note"
 import { toast } from "sonner"
@@ -12,6 +13,7 @@ interface LeadInternalNotesProps {
 }
 
 export function LeadInternalNotes({ leadId, currentNotes }: LeadInternalNotesProps) {
+    const router = useRouter()
     const [newNote, setNewNote] = useState("")
     const [loading, setLoading] = useState(false)
 
@@ -24,6 +26,7 @@ export function LeadInternalNotes({ leadId, currentNotes }: LeadInternalNotesPro
             if (res.success) {
                 setNewNote("")
                 toast.success("Nota aggiunta!")
+                router.refresh()
             } else {
                 toast.error(res.error || "Errore")
             }

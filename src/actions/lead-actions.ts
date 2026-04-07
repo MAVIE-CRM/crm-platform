@@ -31,9 +31,9 @@ export async function updateLeadQuickAction(
         } else if (type === 'no-answer') {
             updateData.lastStatus = 'NON_RISPONDE';
             updateData.nextFollowupAt = data.nextFollowup;
-            updateData.stage = 'FOLLOWUP';
+            updateData.stage = 'NON_RISPONDE';
             activityType = 'RICHIAMO';
-            activityNotes = `Non risponde. Richiamo pianificato. ${activityNotes}`;
+            activityNotes = `Non risponde. Reminder ricontatto impostato. ${activityNotes}`;
         } else if (type === 'schedule') {
             updateData.lastStatus = 'DA_RICONTATTARE';
             updateData.nextFollowupAt = data.nextFollowup;
@@ -48,13 +48,24 @@ export async function updateLeadQuickAction(
         }
 
         // Update Lead
-        await prisma.lead.update({
+        const lead = await prisma.lead.update({
             where: { id: leadId },
-            data: updateData
+            data: {
+                ...updateData,
+            }
         });
 
         // Create Activity
         await createActivity(leadId, activityType, activityNotes, data.nextFollowup);
+
+        // Sync to Internal Notes box (Top)
+        const timestamp = new Date().toLocaleString('it-IT', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+        const currentNotes = lead.notesInternal || "";
+        const systemNote = `[Sistema - ${timestamp}]: ${activityNotes}\n\n`;
+        await prisma.lead.update({
+            where: { id: leadId },
+            data: { notesInternal: systemNote + currentNotes }
+        });
 
         revalidatePath(`/leads/${leadId}`);
         revalidatePath('/leads');

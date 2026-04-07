@@ -3,11 +3,11 @@ import Papa from 'papaparse';
 import { parse, isValid } from 'date-fns';
 
 export const COLUMN_MAPPING = {
-    externalId: 'Email', // Using Email as unique ID since not provided in list
-    leadCreatedAt: 'Colonna 1',
+    externalId: 'Email', // Using Email as unique ID 
+    leadCreatedAt: 'Data e Ora di Creazione', // Generic, we'll see row 1
     countryCode: 'Codice Paese',
     eventType: 'Tipologia Evento',
-    guestsCount: 'Invitati',
+    guestsCount: 'Numero invitati',
     productInterest: 'Prodotto',
     eventDate: 'Data Evento',
     eventLocation: 'Luogo Evento',
@@ -15,7 +15,7 @@ export const COLUMN_MAPPING = {
     lastName: 'Cognome',
     phoneRaw: 'Telefono',
     email: 'Email',
-    preferredContactTime: 'Quando Vorresti Essere Contattato'
+    preferredContactTime: 'Quando preferisci essere contattato'
 } as const;
 
 export type LeadImportRow = Record<string, any>;
@@ -25,7 +25,7 @@ export type ParsedLead = {
     leadCreatedAt?: Date;
     countryCode?: string;
     eventType?: string;
-    guestsCount?: number;
+    guestsCount?: string;
     productInterest?: string;
     eventDate?: Date;
     eventLocation?: string;
@@ -59,26 +59,61 @@ const parseDate = (value: string | number | Date | undefined): Date | undefined 
     const d = new Date(value);
     return isValid(d) ? d : undefined;
 };
+
 const getRowValue = (row: LeadImportRow, target: string) => {
-    const key = Object.keys(row).find(k => k.toLowerCase() === target.toLowerCase());
-    return key ? row[key] : undefined;
+    const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const targetNorm = normalize(target);
+    
+    // Exact match first
+    const key = Object.keys(row).find(k => normalize(k) === targetNorm);
+    if (key) return row[key];
+
+    // Keyword match second (more aggressive)
+    const keywords: Record<string, string[]> = {
+        'invitati': ['invitati', 'guests', 'numero'],
+        'contattato': ['contattato', 'preferisci', 'orario', 'quando'],
+        'email': ['email', 'posta'],
+        'telefono': ['telefono', 'cell', 'phone'],
+        'location': ['location', 'luogo', 'villa', 'ristorante'],
+        'data': ['data', 'event', 'date'],
+    };
+
+    // Find if the target has a keyword we recognize
+    const targetKeywords = Object.keys(keywords).find(k => targetNorm.includes(k));
+    if (targetKeywords) {
+        const matchingKey = Object.keys(row).find(k => {
+            const kn = normalize(k);
+            return keywords[targetKeywords].some(kw => kn.includes(kw));
+        });
+        if (matchingKey) return row[matchingKey];
+    }
+
+    return undefined;
 };
 
-export const mapRowToLead = (row: LeadImportRow): ParsedLead => ({
-    externalId: String(getRowValue(row, COLUMN_MAPPING.externalId) || ''),
-    leadCreatedAt: parseDate(getRowValue(row, COLUMN_MAPPING.leadCreatedAt)),
-    countryCode: String(getRowValue(row, COLUMN_MAPPING.countryCode) || ''),
-    eventType: String(getRowValue(row, COLUMN_MAPPING.eventType) || ''),
-    guestsCount: Number(getRowValue(row, COLUMN_MAPPING.guestsCount)) || 0,
-    productInterest: String(getRowValue(row, COLUMN_MAPPING.productInterest) || ''),
-    eventDate: parseDate(getRowValue(row, COLUMN_MAPPING.eventDate)),
-    eventLocation: String(getRowValue(row, COLUMN_MAPPING.eventLocation) || ''),
-    firstName: String(getRowValue(row, COLUMN_MAPPING.firstName) || ''),
-    lastName: String(getRowValue(row, COLUMN_MAPPING.lastName) || ''),
-    phoneRaw: String(getRowValue(row, COLUMN_MAPPING.phoneRaw) || ''),
-    email: String(getRowValue(row, COLUMN_MAPPING.email) || ''),
-    preferredContactTime: String(getRowValue(row, COLUMN_MAPPING.preferredContactTime) || ''),
-});
+export const mapRowToLead = (row: LeadImportRow): ParsedLead => {
+    const getVal = (target: string) => getRowValue(row, target);
+    
+    // Hardcoded fallbacks for the user's specific sheet structure
+    const guests = getVal('Numero invitati') || getVal('invitati') || getVal('guests');
+    const contact = getVal('Quando preferisci essere contattato') || getVal('preferisci') || getVal('contatto');
+    
+    return {
+        externalId: String(getVal(COLUMN_MAPPING.externalId) || ''),
+        leadCreatedAt: parseDate(getVal(COLUMN_MAPPING.leadCreatedAt)),
+        countryCode: String(getVal(COLUMN_MAPPING.countryCode) || ''),
+        eventType: String(getVal(COLUMN_MAPPING.eventType) || ''),
+        guestsCount: String(guests || ''),
+        productInterest: String(getVal(COLUMN_MAPPING.productInterest) || ''),
+        eventDate: parseDate(getVal(COLUMN_MAPPING.eventDate)),
+        eventLocation: String(getVal(COLUMN_MAPPING.eventLocation) || ''),
+        firstName: String(getVal(COLUMN_MAPPING.firstName) || ''),
+        lastName: String(getVal(COLUMN_MAPPING.lastName) || ''),
+        phoneRaw: String(getVal(COLUMN_MAPPING.phoneRaw) || ''),
+        email: String(getVal(COLUMN_MAPPING.email) || ''),
+        preferredContactTime: String(contact || ''),
+    };
+};
 
 export const parseLeadsFile = async (file: File): Promise<ParsedLead[]> => {
     const buffer = await file.arrayBuffer();

@@ -5,6 +5,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { Toaster } from "@/components/ui/sonner"
 import { GlobalSearch } from "@/components/global-search"
+import { ReminderNotifier } from "@/components/layout/reminder-notifier"
+import { NotificationCenter } from "@/components/layout/notification-center"
 import { cn } from "@/lib/utils"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -32,6 +34,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </div>
 
               <div className="flex items-center gap-4 ml-auto lg:min-w-[12rem] justify-end">
+                  <NotificationCenter />
                   <div className="h-10 w-10 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-black text-sm shadow-sm group hover:bg-indigo-600 hover:text-white transition-all cursor-pointer">
                     LV
                   </div>
@@ -43,6 +46,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </main>
         </SidebarProvider>
+        <ReminderNotifier />
         <Toaster />
       </body>
     </html>

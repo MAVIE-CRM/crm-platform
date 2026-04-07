@@ -20,16 +20,12 @@ import { KanbanColumn } from "./kanban-column";
 import { updateLeadStage } from "@/actions/leads";
 import { LeadCard } from "./lead-card";
 
-// Define stages based on schema
+// Define stages based on user request
 const STAGES = [
     "NUOVO",
+    "NON_RISPONDE",
     "CONTATTATO",
-    "QUALIFICATO",
-    "PREVENTIVO",
-    "FOLLOWUP",
-    "APPUNTAMENTO",
-    "VINTO",
-    "PERSO"
+    "FOLLOWUP"
 ];
 
 interface KanbanBoardProps {

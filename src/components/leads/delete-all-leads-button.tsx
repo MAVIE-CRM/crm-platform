@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
-import { deleteAllLeads } from "@/actions/lead-actions"
+import { deleteAllLeads } from "@/actions/leads"
 import {
     AlertDialog,
     AlertDialogAction,

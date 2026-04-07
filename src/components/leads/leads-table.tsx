@@ -14,7 +14,7 @@ import { format } from "date-fns"
 import { Badge } from "@/components/ui/badge"
 import { QuickActions } from "./quick-actions"
 import Link from "next/link"
-import { Eye, FilterX, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react"
+import { Eye, FilterX, ArrowUpDown, ArrowUp, ArrowDown, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -155,17 +155,10 @@ export function LeadsTable({ leads }: LeadsTableProps) {
                         <TableHeader className="bg-slate-50/50 font-black italic text-slate-700 border-b border-slate-100">
                             <TableRow>
                                 <TableHead className="w-[80px] px-6">Azioni</TableHead>
-                                <TableHead className="min-w-[150px]">Nome Cliente</TableHead>
                                 <TableHead>Stato</TableHead>
-                                <TableHead className="min-w-[130px]">Tipo Evento</TableHead>
-                                <TableHead
-                                    className="min-w-[120px] cursor-pointer hover:bg-slate-100 transition-colors"
-                                    onClick={() => handleSort('leadCreatedAt')}
-                                >
-                                    <div className="flex items-center">
-                                        Data Lead {getSortIcon('leadCreatedAt')}
-                                    </div>
-                                </TableHead>
+                                <TableHead className="min-w-[150px]">Nome Cliente</TableHead>
+                                <TableHead className="min-w-[130px]">Evento</TableHead>
+                                <TableHead className="min-w-[100px]">Invitati</TableHead>
                                 <TableHead
                                     className="min-w-[120px] cursor-pointer hover:bg-slate-100 transition-colors"
                                     onClick={() => handleSort('eventDate')}
@@ -174,9 +167,9 @@ export function LeadsTable({ leads }: LeadsTableProps) {
                                         Data Evento {getSortIcon('eventDate')}
                                     </div>
                                 </TableHead>
-                                <TableHead className="min-w-[120px]">Prodotto</TableHead>
                                 <TableHead className="min-w-[150px]">Località</TableHead>
-                                <TableHead className="min-w-[200px] px-6">Quick Actions</TableHead>
+                                <TableHead className="min-w-[150px]">Contattare?</TableHead>
+                                <TableHead className="min-w-[150px] px-6">Quick Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -196,12 +189,6 @@ export function LeadsTable({ leads }: LeadsTableProps) {
                                                 </Link>
                                             </Button>
                                         </TableCell>
-                                        <TableCell className="font-bold text-slate-800">
-                                            {lead.firstName} {lead.lastName}
-                                            <div className="text-[10px] text-slate-400 font-medium tracking-tight">
-                                                {lead.email}
-                                            </div>
-                                        </TableCell>
                                         <TableCell>
                                             <Badge variant={
                                                 lead.stage === 'NUOVO' ? 'default' :
@@ -211,10 +198,26 @@ export function LeadsTable({ leads }: LeadsTableProps) {
                                                 {lead.stage}
                                             </Badge>
                                         </TableCell>
+                                        <TableCell className="py-4">
+                                            <div className="flex flex-col gap-0.5">
+                                                <span className="font-bold text-slate-900 text-sm leading-none flex items-center gap-2">
+                                                    {lead.firstName} {lead.lastName}
+                                                    {lead.preferredContactTime && (
+                                                        <Badge variant="outline" className="bg-indigo-50/50 text-indigo-600 border-indigo-100 text-[8px] font-black py-0 px-1.5 h-4 flex items-center gap-1 uppercase tracking-tighter">
+                                                            <Clock className="h-2.5 w-2.5" />
+                                                            {lead.preferredContactTime}
+                                                        </Badge>
+                                                    )}
+                                                </span>
+                                                <div className="flex flex-col text-[10px] text-slate-400 font-semibold tracking-tight mt-1">
+                                                    <span className="text-indigo-500 font-bold">{lead.phoneRaw || lead.email}</span>
+                                                </div>
+                                            </div>
+                                        </TableCell>
                                         <TableCell>
                                             {lead.eventType ? (
                                                 <Badge className={cn(
-                                                    "font-black text-[9px] px-2.5 py-1 rounded-lg uppercase tracking-tight shadow-sm border-none transition-all hover:scale-105",
+                                                    "font-black text-[9px] px-2.5 py-1 rounded-lg uppercase tracking-tight shadow-sm border-none transition-all hover:scale-105 w-fit",
                                                     lead.eventType === 'MATRIMONIO' ? 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200' :
                                                     lead.eventType === 'BATTESIMO' ? 'bg-sky-100 text-sky-700 hover:bg-sky-200' :
                                                     lead.eventType === 'COMUNIONE' ? 'bg-violet-100 text-violet-700 hover:bg-violet-200' :
@@ -229,22 +232,36 @@ export function LeadsTable({ leads }: LeadsTableProps) {
                                                 <span className="text-slate-300 font-bold text-[10px] italic">Non specificato</span>
                                             )}
                                         </TableCell>
-                                        <TableCell className="font-medium text-slate-600 text-xs">
-                                            {lead.leadCreatedAt ? format(new Date(lead.leadCreatedAt), 'dd/MM/yyyy') : '-'}
+                                        <TableCell>
+                                            {lead.guestsCount ? (
+                                                <div className="flex items-center gap-1.5 px-2 py-1 bg-amber-50 text-amber-700 text-[10px] font-black rounded-lg border border-amber-100 w-fit">
+                                                    <span>🥂 {lead.guestsCount}</span>
+                                                </div>
+                                            ) : (
+                                                <span className="text-slate-300 font-bold text-[10px]">-</span>
+                                            )}
                                         </TableCell>
                                         <TableCell className="font-bold text-indigo-600 text-xs">
                                             {lead.eventDate ? format(new Date(lead.eventDate), 'dd/MM/yyyy') : '-'}
                                         </TableCell>
-                                        <TableCell className="text-slate-500 font-medium text-xs">{lead.productInterest || '-'}</TableCell>
                                         <TableCell>
                                             <div className="flex flex-col gap-0.5">
-                                                <span className="font-bold text-slate-800 text-[11px] leading-tight">
-                                                    {(lead as any).locationName || (lead.eventLocation?.split(',')[0]) || '-'}
+                                                <span className="font-bold text-slate-800 text-[11px] leading-tight flex items-center gap-1">
+                                                    📍 {(lead as any).locationName || (lead.eventLocation?.split(',')[0]) || '-'}
                                                 </span>
                                                 <span className="text-[9px] text-slate-400 font-medium truncate max-w-[150px] italic">
                                                     {lead.eventLocation || '-'}
                                                 </span>
                                             </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            {lead.preferredContactTime ? (
+                                                <span className="text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded-lg border border-slate-200">
+                                                    🕒 {lead.preferredContactTime}
+                                                </span>
+                                            ) : (
+                                                <span className="text-slate-300 font-bold text-[10px] italic">Sempre</span>
+                                            )}
                                         </TableCell>
                                         <TableCell className="px-6">
                                             <QuickActions lead={lead} />

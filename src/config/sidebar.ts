@@ -1,4 +1,4 @@
-import { Home, Users, Calendar, FileText, Settings, Phone, LayoutDashboard } from "lucide-react"
+import { Home, Users, Calendar, FileText, Settings, Phone, LayoutDashboard, MessageSquare, Database } from "lucide-react"
 
 export const sidebarLinks = [
     {
@@ -17,19 +17,24 @@ export const sidebarLinks = [
         icon: LayoutDashboard,
     },
     {
+        title: "Google Sheets Sync",
+        href: "/sync-sheets",
+        icon: Database,
+    },
+    {
         title: "Preventivi",
         href: "/quotes",
         icon: FileText,
     },
     {
+        title: "WhatsApp",
+        href: "/whatsapp",
+        icon: MessageSquare,
+    },
+    {
         title: "Calendario",
         href: "/calendar",
         icon: Calendar,
-    },
-    {
-        title: "Quotes",
-        href: "/quotes",
-        icon: FileText,
     },
     {
         title: "Activities",

@@ -16,14 +16,16 @@ export async function GET(request: Request) {
         // For this demo, we will log them and maybe set a cookie (not secure for prod)
         console.log('Google Auth Tokens:', tokens)
 
-        // Redirect back to calendar page
-        const response = NextResponse.redirect(new URL('/calendar', request.url))
+        // Redirect back to sync page (most relevant now)
+        const response = NextResponse.redirect(new URL('/sync-sheets', request.url))
 
-        // Mocking token storage via cookie for the demo
-        response.cookies.set('google_calendar_tokens', JSON.stringify(tokens), {
+        // Save generic tokens that include both calendar and sheet permissions
+        response.cookies.set('google_tokens', JSON.stringify(tokens), {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            maxAge: 60 * 60 * 24 * 7 // 1 week
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 60 * 60 * 24 * 30 // 30 days
         })
 
         return response

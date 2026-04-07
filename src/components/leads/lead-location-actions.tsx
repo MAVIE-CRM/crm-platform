@@ -61,67 +61,69 @@ export function LeadLocationActions({ lead }: LeadLocationActionsProps) {
         </div>
 
         {/* Tripletta di Info Geografiche Strutturate */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-2">
            {/* Città */}
-           <div className="bg-indigo-50/30 rounded-3xl p-5 border border-indigo-100/30 text-center transition-all hover:bg-indigo-50/60">
-             <div className="flex flex-col items-center gap-1.5">
-                 <div className="h-8 w-8 rounded-xl bg-white shadow-sm flex items-center justify-center mb-1">
-                    <MapPin className="h-4 w-4 text-indigo-600" />
+           <div className="bg-indigo-50/40 rounded-[1.8rem] p-3 border border-indigo-100/50 text-center transition-all hover:bg-white hover:shadow-xl hover:shadow-indigo-500/5 group/box">
+             <div className="flex flex-col items-center gap-1">
+                 <div className="h-7 w-7 rounded-lg bg-white shadow-sm flex items-center justify-center mb-0.5 group-hover/box:scale-110 transition-transform">
+                    <MapPin className="h-3.5 w-3.5 text-indigo-500" />
                  </div>
-                 <span className="text-[9px] font-bold text-indigo-400 uppercase tracking-[0.15em]">Città</span>
-                 <p className="text-xs font-black text-slate-800 tracking-tight truncate w-full">{cityName}</p>
+                 <span className="text-[8px] font-black text-indigo-400 uppercase tracking-widest">Città</span>
+                 <p className="text-[10px] font-black text-slate-800 leading-tight break-words px-1">{cityName}</p>
              </div>
            </div>
 
            {/* Provincia */}
-           <div className="bg-indigo-50/30 rounded-3xl p-5 border border-indigo-100/30 text-center transition-all hover:bg-indigo-50/60">
-             <div className="flex flex-col items-center gap-1.5">
-                 <div className="h-8 w-8 rounded-xl bg-white shadow-sm flex items-center justify-center mb-1">
-                    <Landmark className="h-4 w-4 text-indigo-600" />
+           <div className="bg-indigo-50/40 rounded-[1.8rem] p-3 border border-indigo-100/50 text-center transition-all hover:bg-white hover:shadow-xl hover:shadow-indigo-500/5 group/box">
+             <div className="flex flex-col items-center gap-1">
+                 <div className="h-7 w-7 rounded-lg bg-white shadow-sm flex items-center justify-center mb-0.5 group-hover/box:scale-110 transition-transform">
+                    <Landmark className="h-3.5 w-3.5 text-indigo-500" />
                  </div>
-                 <span className="text-[9px] font-bold text-indigo-400 uppercase tracking-[0.15em]">Provincia</span>
-                 <p className="text-xs font-black text-slate-800 tracking-tight truncate w-full">{province}</p>
+                 <span className="text-[8px] font-black text-indigo-400 uppercase tracking-widest">Prov.</span>
+                 <p className="text-[10px] font-black text-slate-800 leading-tight px-1">{province}</p>
              </div>
            </div>
 
            {/* Regione */}
-           <div className="bg-emerald-50/20 rounded-3xl p-5 border border-emerald-100/30 text-center transition-all hover:bg-emerald-50/40">
-             <div className="flex flex-col items-center gap-1.5">
-                 <div className="h-8 w-8 rounded-xl bg-white shadow-sm flex items-center justify-center mb-1">
-                    <Compass className="h-4 w-4 text-emerald-600" />
+           <div className="bg-emerald-50/30 rounded-[1.8rem] p-3 border border-emerald-100/40 text-center transition-all hover:bg-white hover:shadow-xl hover:shadow-emerald-500/5 group/box">
+             <div className="flex flex-col items-center gap-1">
+                 <div className="h-7 w-7 rounded-lg bg-white shadow-sm flex items-center justify-center mb-0.5 group-hover/box:scale-110 transition-transform">
+                    <Compass className="h-3.5 w-3.5 text-emerald-500" />
                  </div>
-                 <span className="text-[9px] font-bold text-emerald-500 uppercase tracking-[0.15em]">Regione</span>
-                 <p className="text-xs font-black text-slate-800 tracking-tight truncate w-full">{region}</p>
+                 <span className="text-[8px] font-black text-emerald-500 uppercase tracking-widest">Regione</span>
+                 <p className="text-[10px] font-black text-slate-800 leading-tight break-words px-1">{region}</p>
              </div>
            </div>
         </div>
 
         {/* Indirizzo Completo */}
-        <div className="bg-slate-950 rounded-[2.2rem] p-6 shadow-2xl relative overflow-hidden group/addr transition-all hover:px-7">
-           <div className="absolute right-0 top-0 p-6 opacity-10 group-hover/addr:opacity-20 transition-opacity">
-              <Compass className="h-16 w-16 text-white" />
+        {/* Indirizzo Completo */}
+        <div className="bg-slate-950 rounded-[2rem] p-4 shadow-2xl relative overflow-hidden group/addr transition-all">
+           <div className="absolute right-0 top-0 p-4 opacity-5 group-hover/addr:opacity-10 transition-opacity">
+              <Compass className="h-12 w-12 text-white" />
            </div>
-           <div className="relative z-10 flex items-center gap-5">
-              <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/10 shadow-inner">
-                 <Map className="h-6 w-6 text-indigo-400" />
+           <div className="relative z-10 flex items-center gap-4">
+              <div className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0 border border-white/5">
+                 <Map className="h-5 w-5 text-indigo-400" />
               </div>
-              <div className="space-y-1.5 overflow-hidden">
-                 <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">Indirizzo di Destinazione Ufficiale</p>
-                 <p className="text-xs font-bold text-white tracking-wide truncate w-full">{location}</p>
-                 <div className="flex items-center gap-2 pt-1">
-                    <div className="h-1 w-8 bg-indigo-500 rounded-full"></div>
-                    <span className="text-[9px] font-medium text-slate-400 uppercase tracking-widest">Google Verified</span>
+              <div className="space-y-1 overflow-hidden">
+                 <p className="text-[9px] font-black text-slate-500 uppercase tracking-tighter leading-none">Indirizzo Destinazione Ufficiale</p>
+                 <p className="text-[11px] font-bold text-white tracking-tight truncate pr-4 leading-tight">{location}</p>
+                 <div className="flex items-center gap-2">
+                    <div className="h-0.5 w-6 bg-indigo-500 rounded-full"></div>
+                    <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Certified</span>
                  </div>
               </div>
            </div>
         </div>
 
         {/* Bottoni Azione */}
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-2 gap-3">
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" className="h-16 rounded-2xl border-slate-200 bg-white hover:bg-indigo-50 hover:text-indigo-700 shadow-sm font-black text-[11px] uppercase tracking-widest transition-all">
-                 <Maximize2 className="h-5 w-5 mr-3" /> Massimizza Mappa
+              <Button variant="outline" className="h-14 rounded-2xl border-slate-200 bg-white hover:bg-indigo-50 hover:text-indigo-700 shadow-sm font-black text-[10px] uppercase tracking-tighter px-2 w-full transition-all flex items-center justify-center">
+                 <Maximize2 className="h-4 w-4 mr-2 shrink-0 text-indigo-500" /> 
+                 <span className="truncate">Massimizza</span>
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-6xl h-[85vh] p-2 rounded-[3.5rem] border-none shadow-[0_0_100px_rgba(0,0,0,0.2)]">
@@ -131,8 +133,9 @@ export function LeadLocationActions({ lead }: LeadLocationActionsProps) {
 
           <Dialog>
             <DialogTrigger asChild>
-              <Button className="h-16 rounded-2xl bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-100 font-black text-[11px] uppercase tracking-widest transition-all hover:scale-[1.02]">
-                 <Navigation className="h-5 w-5 mr-3" /> Percorso Rapido
+              <Button className="h-14 rounded-2xl bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-100 font-black text-[10px] uppercase tracking-tighter px-2 w-full transition-all flex items-center justify-center">
+                 <Navigation className="h-4 w-4 mr-2 shrink-0" /> 
+                 <span className="truncate">Percorso Rapido</span>
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-7xl h-[90vh] p-2 rounded-[4rem] border-none shadow-[0_0_150px_rgba(0,0,0,0.3)]">

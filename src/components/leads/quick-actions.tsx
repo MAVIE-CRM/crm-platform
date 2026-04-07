@@ -9,10 +9,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { format, addDays, setHours, setMinutes } from "date-fns"
-import { Calendar as CalendarIcon, Phone, PhoneOff, Clock } from "lucide-react"
+import { Calendar as CalendarIcon, Phone, PhoneOff, Clock, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { updateLeadQuickAction } from "@/actions/lead-actions" // We will create this next
+import { updateLeadQuickAction } from "@/actions/lead-actions"
+import { sendLeadWhatsAppAction } from "@/actions/whatsapp-actions"
 import { Lead } from "@prisma/client"
+import { Checkbox } from "@/components/ui/checkbox"
+import { MessageSquare } from "lucide-react"
+import { toast } from "sonner"
 
 interface QuickActionsProps {
     lead: Lead;
@@ -25,6 +29,7 @@ export function QuickActions({ lead }: QuickActionsProps) {
     const [date, setDate] = useState<Date | undefined>(addDays(new Date(), 1));
     const [time, setTime] = useState("10:00");
     const [loading, setLoading] = useState(false);
+    const [sendWhatsapp, setSendWhatsapp] = useState(true);
 
     const handleAction = async (type: 'contacted' | 'no-answer' | 'schedule' | 'cancelled') => {
         setActionType(type);
@@ -45,6 +50,8 @@ export function QuickActions({ lead }: QuickActionsProps) {
         } else if (type === 'contacted') {
             setDate(undefined);
         }
+
+        setSendWhatsapp(type === 'contacted' || type === 'no-answer');
     };
 
     const submitAction = async () => {
@@ -62,6 +69,15 @@ export function QuickActions({ lead }: QuickActionsProps) {
             nextFollowup,
         });
 
+        if (sendWhatsapp && (actionType === 'contacted' || actionType === 'no-answer')) {
+            const waRes = await sendLeadWhatsAppAction(lead.id, actionType);
+            if (waRes.success) {
+                toast.success("Messaggio WhatsApp inviato!");
+            } else {
+                toast.error(`WhatsApp fallito: ${waRes.error}`);
+            }
+        }
+
         setLoading(true);
         setIsOpen(false);
         setNotes("");
@@ -71,38 +87,43 @@ export function QuickActions({ lead }: QuickActionsProps) {
     return (
         <div className="flex gap-2 flex-wrap">
             <Button
-                size="sm"
-                className="bg-green-600 hover:bg-green-700 text-white"
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8 bg-green-50 text-green-600 hover:bg-green-600 hover:text-white rounded-xl shadow-sm transition-all"
                 onClick={() => handleAction('contacted')}
+                title="Contattato"
             >
-                <Phone className="mr-2 h-4 w-4" />
-                Contattato
+                <Phone className="h-4 w-4" />
             </Button>
 
             <Button
-                size="sm"
-                className="bg-yellow-500 hover:bg-yellow-600 text-white"
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8 bg-yellow-50 text-yellow-600 hover:bg-yellow-500 hover:text-white rounded-xl shadow-sm transition-all"
                 onClick={() => handleAction('no-answer')}
+                title="Non Risponde"
             >
-                <PhoneOff className="mr-2 h-4 w-4" />
-                Non Risponde
+                <PhoneOff className="h-4 w-4" />
             </Button>
 
             <Button
-                size="sm"
-                className="bg-blue-600 hover:bg-blue-700 text-white"
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-xl shadow-sm transition-all"
                 onClick={() => handleAction('schedule')}
+                title="Appuntamento"
             >
-                <Clock className="mr-2 h-4 w-4" />
-                Appuntamento
+                <Clock className="h-4 w-4" />
             </Button>
 
             <Button
-                size="sm"
-                variant="destructive"
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8 bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white rounded-xl shadow-sm transition-all"
                 onClick={() => handleAction('cancelled')}
+                title="Cancellare"
             >
-                Cancellare
+                <Trash2 className="h-4 w-4" />
             </Button>
 
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -110,7 +131,7 @@ export function QuickActions({ lead }: QuickActionsProps) {
                     <DialogHeader>
                         <DialogTitle>
                             {actionType === 'contacted' && "Log Contatto"}
-                            {actionType === 'no-answer' && "Log Non Risponde & Programma Richiamo"}
+                            {actionType === 'no-answer' && "⏰ Reminder di Ricontatto"}
                             {actionType === 'schedule' && "Programma Appuntamento"}
                             {actionType === 'cancelled' && "Cancella Lead / Perso"}
                         </DialogTitle>
@@ -124,7 +145,9 @@ export function QuickActions({ lead }: QuickActionsProps) {
 
                         {(actionType === 'no-answer' || actionType === 'schedule') && (
                             <div className="grid gap-2">
-                                <Label>Data Prossimo Contatto / Appuntamento</Label>
+                                <Label className="text-indigo-600 font-bold">
+                                    {actionType === 'no-answer' ? "⏰ Quando vuoi richiamarlo?" : "Data Prossimo Contatto / Appuntamento"}
+                                </Label>
                                 <div className="flex gap-2">
                                     <Popover>
                                         <PopoverTrigger asChild>
@@ -154,6 +177,29 @@ export function QuickActions({ lead }: QuickActionsProps) {
                                         value={time}
                                         onChange={(e) => setTime(e.target.value)}
                                     />
+                                </div>
+                            </div>
+                        )}
+
+                        {(actionType === 'contacted' || actionType === 'no-answer') && (
+                            <div className="flex items-center space-x-3 p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100 transition-all hover:bg-indigo-50">
+                                <Checkbox 
+                                    id="whatsapp" 
+                                    checked={sendWhatsapp} 
+                                    onCheckedChange={(checked: boolean) => setSendWhatsapp(checked)}
+                                    className="h-5 w-5 rounded-lg border-indigo-200 data-[state=checked]:bg-indigo-600"
+                                />
+                                <div className="grid gap-0.5 leading-none">
+                                    <Label 
+                                        htmlFor="whatsapp" 
+                                        className="text-sm font-bold text-indigo-900 cursor-pointer flex items-center gap-2"
+                                    >
+                                        <MessageSquare className="h-4 w-4 text-emerald-500" />
+                                        Invia Template WhatsApp
+                                    </Label>
+                                    <p className="text-[10px] text-indigo-500 font-medium italic opacity-70">
+                                        Il messaggio userà il template predefinito di Meta.
+                                    </p>
                                 </div>
                             </div>
                         )}

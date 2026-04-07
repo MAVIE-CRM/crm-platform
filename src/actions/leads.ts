@@ -35,15 +35,11 @@ export async function importLeadsAction(leads: ParsedLead[]): Promise<ImportResu
                         leadCreatedAt: lead.leadCreatedAt,
                         countryCode: lead.countryCode,
                         eventType: lead.eventType,
-                        guestsCount: lead.guestsCount,
-                        productInterest: lead.productInterest,
-                        eventDate: lead.eventDate,
-                        eventLocation: lead.eventLocation,
-                        firstName: lead.firstName,
-                        lastName: lead.lastName,
                         phoneRaw: lead.phoneRaw,
                         email: lead.email,
                         preferredContactTime: lead.preferredContactTime,
+                        // @ts-ignore
+                        guestsCount: lead.guestsCount,
                     }
                 });
             } else {
@@ -53,6 +49,7 @@ export async function importLeadsAction(leads: ParsedLead[]): Promise<ImportResu
                         leadCreatedAt: lead.leadCreatedAt,
                         countryCode: lead.countryCode,
                         eventType: lead.eventType,
+                        // @ts-ignore
                         guestsCount: lead.guestsCount,
                         productInterest: lead.productInterest,
                         eventDate: lead.eventDate,
@@ -107,31 +104,56 @@ import { cookies } from 'next/headers'
 import { getGoogleSheetsClient } from '@/lib/google-auth'
 import { mapRowToLead } from '@/lib/import-utils'
 
-export async function syncLeadsFromGoogleSheet(spreadsheetId: string): Promise<ImportResult> {
+export async function syncLeadsFromGoogleSheet(url: string): Promise<ImportResult> {
     const cookieStore = await cookies();
-    const tokensCookie = cookieStore.get('google_calendar_tokens');
+    // Use the updated generic google_tokens cookie
+    let tokensCookie = cookieStore.get('google_tokens') || cookieStore.get('google_calendar_tokens');
 
     if (!tokensCookie) {
-        return { success: 0, errors: 1, message: "Google account not connected." };
+        return { success: 0, errors: 1, message: "Account Google non collegato. Vai al Calendario o Sync per collegarlo." };
     }
 
     try {
+        // Robust Extraction of Spreadsheet ID from URL
+        let spreadsheetId = url;
+        if (url.includes("/d/")) {
+            const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+            if (match) spreadsheetId = match[1];
+        } else if (url.includes("id=")) {
+            const match = url.match(/id=([a-zA-Z0-9-_]+)/);
+            if (match) spreadsheetId = match[1];
+        }
+
+        if (!spreadsheetId || spreadsheetId.length < 20) {
+            return { success: 0, errors: 1, message: "URL non valido. Assicurati di copiare tutto l'indirizzo del foglio Google." };
+        }
+
+        console.log("Syncing from Spreadsheet ID:", spreadsheetId);
         const tokens = JSON.parse(tokensCookie.value);
         const sheets = getGoogleSheetsClient(tokens);
 
-        // Get the values from the first sheet
+        // Get a large range to ensure we cover row 637 and beyond
         const response = await sheets.spreadsheets.values.get({
             spreadsheetId,
-            range: 'A1:Z100', // Simplified range
+            range: 'A1:Z5000', 
         });
 
         const rows = response.data.values;
         if (!rows || rows.length < 2) {
-            return { success: 0, errors: 0, message: "No data found in spreadsheet." };
+            return { success: 0, errors: 0, message: "Nessun dato trovato nel foglio." };
         }
 
+        // Headers are typically on the first row
         const headers = rows[0].map(h => String(h).trim());
-        const dataRows = rows.slice(1);
+        console.log("Headers found:", headers);
+        
+        // Use data starting from row 637 (index 636)
+        // If the sheet has fewer rows, this will handle it gracefully
+        const dataRows = rows.slice(636); 
+
+        if (dataRows.length === 0) {
+            return { success: 0, errors: 0, message: "Nessun dato trovato a partire dalla riga 637." };
+        }
 
         const parsedLeads = dataRows.map(row => {
             const rowObj: Record<string, any> = {};
@@ -150,5 +172,29 @@ export async function syncLeadsFromGoogleSheet(spreadsheetId: string): Promise<I
     } catch (error: any) {
         console.error("Sheets sync error:", error);
         return { success: 0, errors: 1, message: error.message || "Failed to sync from Google Sheets." };
+    }
+}
+
+export async function deleteAllLeads() {
+    try {
+        await prisma.lead.deleteMany();
+        revalidatePath('/leads');
+        return { success: true };
+    } catch (error) {
+        console.error("Failed to delete all leads:", error);
+        return { success: false, error };
+    }
+}
+
+export async function deleteLead(id: string) {
+    try {
+        await prisma.lead.delete({
+            where: { id }
+        });
+        revalidatePath('/leads');
+        return { success: true };
+    } catch (error) {
+        console.error("Failed to delete lead:", error);
+        return { success: false, error };
     }
 }

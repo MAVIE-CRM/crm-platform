@@ -30,7 +30,7 @@ model Lead {
   leadCreatedAt      DateTime? // Data Lead
   countryCode        String?   // Codice Paese
   eventType          String?   // Tipologia Evento
-  guestsCount        Int?      // Invitati
+  guestsCount        String?   // Invitati
   productInterest    String?   // Prodotto
   eventDate          DateTime? // Data Evento
   eventLocation      String?   // Luogo Evento (Indirizzo Completo)

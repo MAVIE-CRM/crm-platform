@@ -247,6 +247,7 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
                 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="p-8 space-y-8 bg-white">
+                        {/* Row 1: Name & Last Name */}
                         <div className="grid grid-cols-2 gap-6">
                             <FormField
                                 control={form.control}
@@ -268,6 +269,34 @@ export function EditLeadDialog({ lead }: EditLeadDialogProps) {
                                         <FormLabel className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Cognome</FormLabel>
                                         <FormControl>
                                             <Input className="rounded-2xl border-slate-200 bg-slate-50/50 py-6 font-bold focus:ring-indigo-500 h-12" {...field} />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        {/* Row 2: Email & Phone (NEW) */}
+                        <div className="grid grid-cols-2 gap-6">
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Email</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="esempio@mail.com" className="rounded-2xl border-slate-200 bg-slate-50/50 py-6 font-bold focus:ring-indigo-500 h-12" {...field} />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="phone"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Telefono (WhatsApp)</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="+39..." className="rounded-2xl border-slate-200 bg-slate-50/50 py-6 font-bold focus:ring-indigo-500 h-12" {...field} />
                                         </FormControl>
                                     </FormItem>
                                 )}
